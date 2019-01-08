@@ -17,7 +17,7 @@ const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent')
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
-
+const theme = require('../theme');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -86,12 +86,17 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
     },
   ];
   if (preProcessor) {
-    loaders.push({
-      loader: require.resolve(preProcessor),
-      options: {
-        sourceMap: shouldUseSourceMap,
-      },
-    });
+    // loaders.push({
+    //   loader: require.resolve(preProcessor),
+    //   options: {
+    //     sourceMap: shouldUseSourceMap,
+    //   },
+    // });
+    if (preProcessor === "less-loader") {
+      loader.options.modifyVars =theme;
+      loader.options.javascriptEnabled = true;
+    }
+    loaders.push(loader);
   }
   return loaders;
 };
@@ -306,7 +311,7 @@ module.exports = {
                     },
                   },
                 ],
-                ['import',{"libraryName":'antd',"style":'css'}],
+                ['import',{"libraryName":'antd',"style":true}],
               ],
               cacheDirectory: true,
               // Save disk space when time isn't as important
@@ -358,6 +363,11 @@ module.exports = {
             // Remove this when webpack adds a warning or an error for this.
             // See https://github.com/webpack/webpack/issues/6571
             sideEffects: true,
+          },
+          {
+            test: /\.less$/,
+            use:  getStyleLoaders({
+            },"less-loader")
           },
           // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
           // using the extension .module.css

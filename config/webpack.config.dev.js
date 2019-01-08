@@ -13,6 +13,7 @@ const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
+const theme = require('../theme');
 
 
 
@@ -62,7 +63,18 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
     },
   ];
   if (preProcessor) {
-    loaders.push(require.resolve(preProcessor));
+    // loaders.push(require.resolve(preProcessor));
+    let loader = require.resolve(preProcessor)
+    if (preProcessor === "less-loader") {
+      loader = {
+        loader,
+        options: {
+          modifyVars: theme,
+          javascriptEnabled: true,
+        }
+      }
+    }
+    loaders.push(loader);
   }
   return loaders;
 };
@@ -230,7 +242,7 @@ module.exports = {
                     },
                   },
                 ],
-                ['import',{"libraryName":'antd',"style":'css'}],
+                ['import',{"libraryName":'antd',"style":true}],
               ],
               // This is a feature of `babel-loader` for webpack (not Babel itself).
               // It enables caching results in ./node_modules/.cache/babel-loader/
@@ -289,6 +301,13 @@ module.exports = {
               modules: true,
               getLocalIdent: getCSSModuleLocalIdent,
             }),
+          },
+          {
+            test: /\.less$/,
+            use:  getStyleLoaders({
+            },"less-loader")
+           
+            
           },
           // Opt-in support for SASS (using .scss or .sass extensions).
           // Chains the sass-loader with the css-loader and the style-loader

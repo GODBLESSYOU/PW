@@ -2,20 +2,28 @@ import React from 'react'
 import styled from 'styled-components'
 import connect from '@connect'
 import './index.css'
+import {Layout, Menu, Breadcrumb} from 'antd';
 
 
 
+const { Header, Content, Footer } = Layout;
 const Root=styled.div`
+    width:100%;
+    height:100%;
    
 `
 @connect('index') 
-class Content extends React.Component{
+class MianContent extends React.Component{
     
     render(){
         return (
            <Root>
-              index
-              56757567567567
+               <Layout>
+                   <Header>
+                       <div>logo</div>
+                       <Menu></Menu>
+                   </Header>
+               </Layout>
            </Root>
 
         )
@@ -23,4 +31,4 @@ class Content extends React.Component{
 
 }
 
-export default Content;
+export default MianContent;

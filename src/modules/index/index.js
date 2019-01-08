@@ -13,7 +13,7 @@ const Root=styled.div`
    
 `
 @connect('index') 
-class MianContent extends React.Component{
+class MainContent extends React.Component{
     
     render(){
         return (
@@ -31,4 +31,4 @@ class MianContent extends React.Component{
 
 }
 
-export default MianContent;
+export default MainContent;

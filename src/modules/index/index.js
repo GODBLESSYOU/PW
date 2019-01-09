@@ -2,7 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import connect from '@connect'
 import './index.css'
-import {Layout, Menu, Breadcrumb} from 'antd';
+import FooterContent from './FooterContent'
+import { BrowserRouter as Router,Route,Link } from 'react-router-dom';
+import {Layout, Menu ,Button} from 'antd';
+
 
 
 
@@ -13,16 +16,21 @@ const Root=styled.div`
     .hearder-Style{
         display:flex;
         align-items:center;
+        justify-content:space-around;
         height:119px;
+        padding:0 50px;
         line-height:44px;
         font-size:30px;
         color:rgba(16,16,16,1);
         font-family:Roboto;
         border-bottom: 1px solid rgba(187, 187, 187, 1);
-
+        button.ant-btn{
+            height:40px;
+            font-size:25px;
+            line-height:40px;
+        }
     }
     .logo-Style{
-        margin-right:124px;
         span{
             display:inline-block;
             width: 91px;
@@ -36,41 +44,82 @@ const Root=styled.div`
         }
     }
     .menu-Style{
+        margin:0;
         height:100%;
-        flex-grow:1; 
-        border:1px solid;
+        border-bottom:none;
         & .ant-menu-item{
+            height:100%;
             color:rgba(16,16,16,1);
             font-size:30px;
-            line-height:100px;
+            line-height:118px;
         }
         
     }
+    .content-Style{
+        width:100%;
+        min-height:20vh;
+        box-sizing:border-box;
+        padding:0 50px;
+    }
+    
    
 `
+
 @connect('index') 
 class MainContent extends React.Component{
-    
+    constructor(props){
+        super(props);
+        this.state={
+            key:['0'],//选中key值
+        }
+    }
+    componentWillMount(){
+        this.props.paths.forEach(r=>{
+            if(new RegExp(r.url).test(window.location.pathname)){
+                this.props.selectModuleFun(r.key);
+                this.setState({
+                    key:[r.key]
+                })
+            }
+        })
+    }
+    onSelectFun=(obj)=>{
+        this.props.selectModuleFun(obj.key);
+    }
     render(){
+        const {slectedPath}=this.props;
         return (
            <Root>
-               <Layout>
-                   <Header className='hearder-Style'>
-                       <div className='logo-Style'>
-                           <span>logo</span>
-                           职引官
-                       </div>
-                       <Menu
-                            mode="horizontal"
-                            className='menu-Style'
-                       >
-                           <Menu.Item key="1">首页</Menu.Item>
-                           <Menu.Item key="2">引享圈</Menu.Item>
-                           <Menu.Item key="3">职位行情</Menu.Item>
-                           <Menu.Item key="4">测一测</Menu.Item>
-                       </Menu>
-                   </Header>
-               </Layout>
+               <Router>
+                    <Layout>
+                        <Header className='hearder-Style'>
+                            <div className='logo-Style'>
+                                <span>logo</span>
+                                职引官
+                            </div>
+                            <Menu
+                                    mode="horizontal"
+                                    className='menu-Style'
+                                    defaultSelectedKeys={this.state.key}
+                                    onSelect={this.onSelectFun.bind(this)}
+                            >
+                                <Menu.Item key="0"><Link to='/'>首页</Link></Menu.Item>
+                                <Menu.Item key="1"><Link to='/y'>引享圈</Link></Menu.Item>
+                                <Menu.Item key="2"><Link to='/p'>职位行情</Link></Menu.Item>
+                                <Menu.Item key="3"><Link to='/text'>测一测</Link></Menu.Item>
+                            </Menu>
+                            <Button>发布提问/动态</Button>
+                        </Header>
+                        <Content className='content-Style'>
+                            <Route exact path={slectedPath.url} component={slectedPath.comp}/>
+                        </Content>
+                        <Footer>
+                            <FooterContent/>
+                        </Footer>
+                    </Layout>
+
+               </Router>
+               
            </Root>
 
         )

@@ -159,6 +159,7 @@ module.exports = {
       '@type':path.resolve(__dirname,'../src/utils/R.js'),
       '@connect':path.resolve(__dirname,'../src/redux/Connect.js'),
       '@module':path.resolve(__dirname,'../src/modules'),
+      '@comp':path.resolve(__dirname,'../src/components'),
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding

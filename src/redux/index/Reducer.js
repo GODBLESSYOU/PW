@@ -18,6 +18,10 @@ const LoadableComTestPages=Loadable({
     loader:()=>import('@module/testPages'),
     loading:LoadingComponent
 })
+const LoadableComUser=Loadable({
+    loader:()=>import('@module/userInfo'),
+    loading:LoadingComponent
+})
 const paths=[
     {
         key:'0',
@@ -39,10 +43,15 @@ const paths=[
         url:'/text',
         comp:LoadableComTestPages
     },
+    {
+        key:'4',
+        url:'/user',
+        comp:LoadableComUser
+    }
 ]
 const initialState={
     paths,
-    slectedPath:paths[0]
+    selectedPath:paths[0]
    
 }
 const getNewState=function(state=initialState,action){
@@ -50,7 +59,7 @@ const getNewState=function(state=initialState,action){
         case Type.INDEX_SELECT_MODULE:
             return {
                 ...state,
-                slectedPath:paths[action.data]
+                selectedPath:Object.assign({},paths[action.data])
             }
         default:
             return state   

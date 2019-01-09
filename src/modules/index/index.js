@@ -60,6 +60,7 @@ const Root=styled.div`
         min-height:20vh;
         box-sizing:border-box;
         padding:0 50px;
+        margin-bottom:100px;
     }
     
    
@@ -87,7 +88,7 @@ class MainContent extends React.Component{
         this.props.selectModuleFun(obj.key);
     }
     render(){
-        const {slectedPath}=this.props;
+        const {selectedPath}=this.props;
         return (
            <Root>
                <Router>
@@ -111,7 +112,7 @@ class MainContent extends React.Component{
                             <Button>发布提问/动态</Button>
                         </Header>
                         <Content className='content-Style'>
-                            <Route exact path={slectedPath.url} component={slectedPath.comp}/>
+                            <Route exact path={selectedPath.url} component={selectedPath.comp}/>
                         </Content>
                         <Footer>
                             <FooterContent/>

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Spin } from 'antd';
+import { Spin,Empty } from 'antd';
 
 function LoadingComponent(error){
     if(error){
-        return <div>404</div>
+        return <Empty description='404'/>
     }else{
         return (
             <Spin size="large" />

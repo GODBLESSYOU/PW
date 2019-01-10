@@ -22,6 +22,14 @@ const LoadableComUser=Loadable({
     loader:()=>import('@module/userInfo'),
     loading:LoadingComponent
 })
+const LoadableComSearch=Loadable({
+    loader:()=>import('@module/search'),
+    loading:LoadingComponent
+})
+const LoadableComDetailShow=Loadable({
+    loader:()=>import('@module/index/MainPage'),
+    loading:LoadingComponent
+})
 const paths=[
     {
         key:'0',
@@ -47,6 +55,14 @@ const paths=[
         key:'4',
         url:'/user',
         comp:LoadableComUser
+    },{
+        key:'5',
+        url:'/search',
+        comp:LoadableComSearch
+    },{
+        key:'6',
+        url:'/detailShow',
+        comp:LoadableComDetailShow
     }
 ]
 const initialState={

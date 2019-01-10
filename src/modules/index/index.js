@@ -102,7 +102,7 @@ class MainContent extends React.Component{
                                     mode="horizontal"
                                     className='menu-Style'
                                     defaultSelectedKeys={this.state.key}
-                                    onSelect={this.onSelectFun.bind(this)}
+                                    onClick={this.onSelectFun.bind(this)}
                             >
                                 <Menu.Item key="0"><Link to='/'>首页</Link></Menu.Item>
                                 <Menu.Item key="1"><Link to='/y'>引享圈</Link></Menu.Item>

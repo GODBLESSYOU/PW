@@ -1,6 +1,7 @@
 import React from 'react'
 import {Tabs} from 'antd'
 import styled from 'styled-components'
+import PersonalData from './PersonalData'
 
 const TabPane = Tabs.TabPane;
 const Root=styled.div`
@@ -38,7 +39,7 @@ const Root=styled.div`
        display:flex;
        align-items:flex-start;
        margin:5px auto;
-       ul{
+       &>ul{
            list-style:none;
            font-size:18px;
            border:1px solid rgba(178,178,178,1);
@@ -56,6 +57,7 @@ const Root=styled.div`
            }
        }
        &>div{
+           width:0;
            flex-grow:1;
            border:1px solid rgba(178,178,178,1);
            .ant-tabs{
@@ -69,7 +71,12 @@ const Root=styled.div`
    }
 
 `
-const titleArray=["我的资料","我的粉丝","我的关注","我的发布","我的收藏","我的评论/消息"];
+const titleArray=[{title:"我的资料",comp:()=><PersonalData/>},
+    {title:"我的粉丝",comp:PersonalData},
+    {title:"我的关注",comp:PersonalData},
+    {title:"我的发布",comp:PersonalData},
+    {title:"我的收藏",comp:PersonalData},
+    {title:"我的评论/消息",comp:PersonalData}];
 export default class UserInfo extends React.Component{
     constructor(props){
         super(props);
@@ -97,7 +104,7 @@ export default class UserInfo extends React.Component{
                     <ul>
                         {
                            titleArray.map((item,index)=>(
-                               <li key={index} className={index===this.state.key?"activeStyle":""} onClick={this.click.bind(this,index)}>{item}</li>
+                               <li key={index} className={index===this.state.key?"activeStyle":""} onClick={this.click.bind(this,index)}>{item.title}</li>
                            ))
                         }
                     </ul>
@@ -105,7 +112,7 @@ export default class UserInfo extends React.Component{
                         <Tabs activeKey={this.state.key.toString()}>
                             {
                                 titleArray.map((item,index)=>(
-                                    <TabPane tab={item} key={index}>{item}</TabPane>
+                                    <TabPane tab={item.title} key={index}><item.comp/></TabPane>
                                 ))
                             }
                         </Tabs>
